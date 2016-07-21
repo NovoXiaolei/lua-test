@@ -1,4 +1,4 @@
-socket = require "socket"
+local socket = require "socket"
 
 function download( hots, file )
 	local c = assert(socket.connect(host, 80))
@@ -8,7 +8,7 @@ function download( hots, file )
 		local s, status, partial = receive(c)
 		count = count + #(s or partial)
 		if status == "closed" then
-			print("status = %s", status)
+			print("status =", status)
 		    break
 		end
 	end
