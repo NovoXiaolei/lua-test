@@ -1,14 +1,24 @@
 #include <stdio.h>
 #include <string.h>
+/*
 #include <lua.h>
-#include <lauxlib.h>
+#include <luaxlib.h>
 #include <lualib.h>
+*/
+#include "common.h"
 
 void load(lua_State *L, const char *fname, int *w, int *h);
 
 int main(int argc, char *argv[]){
     const char* file = argv[1];
-    printf("file name %s", file);
+    printf("file name %s\n", file);
+
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+    int w, h;
+    load(L, file, &w, &h); 
+    printf(" width = %d, height = %d \n", w, h);
+    lua_close(L);
     return 0;
 }
 
