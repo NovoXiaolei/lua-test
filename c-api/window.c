@@ -21,7 +21,7 @@ struct ColorTable{
 void load(lua_State *L, const char *fname, int *w, int *h);
 void load_test(lua_State *L, const char* fname);
 void setcolor(lua_State *L, struct ColorTable *ct);
-
+double f(lua_State *L, double x, double y);
 
 int main(int argc, char *argv[]){
     const char* file = argv[1];
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     luaL_openlibs(L);
     int w, h;
     load(L, file, &w, &h); 
-    printf(" width = %d, height = %d \n", w, h);
+    printf(" width = %d, height = %d  \n", w, h);
 
     int i = 0;
     while(colortable[i].name!=NULL){
@@ -39,6 +39,8 @@ int main(int argc, char *argv[]){
     }
 
     load_test(L, "test.lua");
+    double z = f(L, 100, 101);
+    printf("call 'f' , return %lf ", z);
 
     lua_close(L);
     return 0;
@@ -86,3 +88,22 @@ void setcolor(lua_State *L, struct ColorTable *ct){
 }
 
 
+double f(lua_State *L, double x, double y){
+    double z;
+
+    lua_getglobal(L, "f");
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+
+    //两个参数， 一个结果
+    //第四个是错误函数的索引
+    if(lua_pcall(L, 2, 1, 0)!=0)
+        error(L, "error running function 'f':%s", lua_tostring(L, -1));
+
+    if(!lua_isnumber(L, -1)){
+        error(L, "function 'f' must return a number");
+    }
+    z = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+    return z;
+}
