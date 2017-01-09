@@ -5,6 +5,8 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#define MAX_COLOR 255
+
 void error(lua_State *L, const char* fmt, ...){
     va_list argp;
     va_start(argp, fmt);
@@ -14,3 +16,27 @@ void error(lua_State *L, const char* fmt, ...){
     exit(EXIT_FAILURE);
 }
 
+float getfield(lua_State *L, const char *key){
+    float result;
+    /*
+    lua_pushstring(L, key);
+    lua_gettable(L, -2);
+    */
+    lua_getfield(L, -1, key);
+    if(!lua_isnumber(L, -1))
+        error(L, "invalid component int background color");
+
+    result = (float)lua_tonumber(L, -1)*MAX_COLOR;
+    lua_pop(L, 1);
+    return result; 
+}
+
+void setfield(lua_State *L, const char *index, int value){
+    /*
+    lua_pushstring(L, index);
+    lua_pushnumber(L, (double)value/MAX_COLOR);
+    lua_settable(L, -3);
+    */
+    lua_pushnumber(L, (double)value/MAX_COLOR);
+    lua_setfield(L, -2, index);
+}
