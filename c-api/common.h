@@ -4,6 +4,7 @@
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
+#include <math.h>
 
 #define MAX_COLOR 255
 
@@ -39,4 +40,11 @@ void setfield(lua_State *L, const char *index, int value){
     */
     lua_pushnumber(L, (double)value/MAX_COLOR);
     lua_setfield(L, -2, index);
+}
+
+static int l_sin(lua_State *L){
+    float d = luaL_checknumber(L, 1);
+    printf("c l_sin para %f \n", d);
+    lua_pushnumber(L, sin(d));
+    return 1;
 }

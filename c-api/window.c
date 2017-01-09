@@ -37,6 +37,9 @@ int main(int argc, char *argv[]){
     while(colortable[i].name!=NULL){
         setcolor(L, &colortable[i++]);
     }
+    
+    lua_pushcfunction(L, l_sin);
+    lua_setglobal(L, "mysin");
 
     load_test(L, "test.lua");
     double z = f(L, 100, 101);
