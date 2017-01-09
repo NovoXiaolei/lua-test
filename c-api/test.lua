@@ -8,3 +8,4 @@ function f(x, y)
 end
 
 print("mysin "..mysin(200))
+print(' '..dump(mydir('./')))

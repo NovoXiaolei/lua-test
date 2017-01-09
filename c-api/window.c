@@ -41,6 +41,9 @@ int main(int argc, char *argv[]){
     lua_pushcfunction(L, l_sin);
     lua_setglobal(L, "mysin");
 
+    lua_pushcfunction(L, l_dir);
+    lua_setglobal(L, "mydir");
+
     load_test(L, "test.lua");
     double z = f(L, 100, 101);
     printf("call 'f' , return %lf ", z);
