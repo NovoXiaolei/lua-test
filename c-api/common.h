@@ -10,6 +10,13 @@
 
 #define MAX_COLOR 255
 
+void error(lua_State *L, const char* fmt, ...);
+
+void load_file(lua_State *L, const char* fname){
+    if(luaL_loadfile(L, fname) || lua_pcall(L, 0, 0, 0))
+        error(L, "cannot run config.file: %s", lua_tostring(L, -1));
+}
+
 void error(lua_State *L, const char* fmt, ...){
     va_list argp;
     va_start(argp, fmt);
