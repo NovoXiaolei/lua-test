@@ -34,7 +34,7 @@ static void stackDump(lua_State *L){
         switch (t) {
             case LUA_TSTRING:{
                 printf("'%s'", lua_tostring(L, i));
-                break; 
+                break;
             }
             case LUA_TBOOLEAN:{
                 printf(lua_toboolean(L, i) ? "true":"false");
@@ -50,6 +50,6 @@ static void stackDump(lua_State *L){
             }
         }
         printf(" ");
-    } 
+    }
     printf("\n");
 }

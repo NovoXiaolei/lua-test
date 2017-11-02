@@ -1,25 +1,18 @@
-CC = gcc
+CC = gcc -v
 PLATS= macosx linux
-LUA_INC := /usr/local/include
+LUA_INC := ./lua-5.3.4/src/ 
+SHARED := -fPIC --shared
+LIB := ./lua-5.3.4/src/lua
 
-all : test window userdata myarray.so
+all : test testupvalue.so
 
 test: test1.c
-	$(CC) -o test  test1.c  -I/usr/local/include -L/usr/local/lua/lib /usr/local/lib/liblua.a -llua -ldl -lm -Wall
+	$(CC) -o test  test1.c  -I$(LUA_INC)  -llua -ldl -lm -Wall
 
-window: window.c
-	$(CC) -o window window.c  -I/usr/local/include -L/usr/local/lua/lib /usr/local/lib/liblua.a -llua -ldl -lm -Wall
-
-userdata: userdata.c
-	$(CC) -g  -o userdata userdata.c  -I/usr/local/include -L/usr/local/lua/lib /usr/local/lib/liblua.a -llua -ldl -lm -Wall
-
-myarray.so: carray.c
-	$(CC) -O2 -fpic -c -o carray.o carray.c 
-	$(CC) -O -shared -fpic -o myarray.so carray.o
+testupvalue.so: lua-testupvalue.c  
+	$(CC) $(SHARED) $^ -o $@  -I$(LUA_INC) -l./lua-5.3.4/src/lua.o -ldl -lm -Wall
 
 clean:
 	-rm -f test
-	-rm -f window	
-	-rm -f userdata
-	-rm -f myarray.so
+	-rm -f *.so
 
