@@ -1,16 +1,16 @@
-CC = gcc -v
-PLATS= macosx linux
-LUA_INC := ./lua-5.3.4/src/ 
-SHARED := -fPIC --shared
-LIB := ./lua-5.3.4/src/lua
+CC = gcc 
+LUA_INC := lua/src 
+LIB_INC := lua/src/liblua.a
+CFLAGS := -g -Wall -lm -I$(LUA_INC)
+SHARED :=  -fPIC -shared
 
 all : test testupvalue.so
 
 test: test1.c
-	$(CC) -o test  test1.c  -I$(LUA_INC)  -llua -ldl -lm -Wall
+	$(CC) $(CFLAGS) $^ -o $@ $(LIB_INC) -ldl
 
 testupvalue.so: lua-testupvalue.c  
-	$(CC) $(SHARED) $^ -o $@  -I$(LUA_INC) -l./lua-5.3.4/src/lua.o -ldl -lm -Wall
+	$(CC) $(CFLAGS) $(SHARED) $^ -o $@  $(LIB_INC) -ldl
 
 clean:
 	-rm -f test

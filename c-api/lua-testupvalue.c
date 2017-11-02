@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
 
-static int lcounter(lua_State* L)
-{
+#include "lua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+
+static int lcounter(lua_State* L) {
     //获取第一个upvalue的值。
     int val = lua_tointeger(L,lua_upvalueindex(1));
     //将得到的结果压入栈中。
@@ -18,8 +19,7 @@ static int lcounter(lua_State* L)
     return 1;
 }
 
-static int lnewCounter(lua_State* L)
-{
+static int lnewCounter(lua_State* L) {
     //压入一个upvalue的初始值0，该函数必须先于lua_pushcclosure之前调用。
     lua_pushinteger(L,0);
     //压入闭包函数，参数1表示该闭包函数的upvalue数量。该函数返回值，闭包函数始终位于栈顶。
@@ -28,9 +28,7 @@ static int lnewCounter(lua_State* L)
 
 }
 
-int
-luaopen_testupvalue(lua_State* L)
-{
+int luaopen_testupvalue(lua_State* L) {
     luaL_Reg l[] = {
         {"counter", lcounter},
         {"newCounter", lnewCounter},
