@@ -38,7 +38,7 @@ float getfield(lua_State *L, const char *key){
 
     result = (float)lua_tonumber(L, -1)*MAX_COLOR;
     lua_pop(L, 1);
-    return result; 
+    return result;
 }
 
 void setfield(lua_State *L, const char *index, int value){
@@ -92,7 +92,7 @@ static int l_map(lua_State *L){
 
     //获得table的大小
     n = lua_objlen(L, 1);
-    
+
     for(i = 1; i<=n;i++){
         lua_pushvalue(L, 2);
         lua_rawgeti(L, 1, i);
